@@ -9,11 +9,12 @@ def main(text,picture,output):
     print(type(qr))
     print(qr.shape)
     print(qr.min(),qr.max())
-    qr2 = qr / 3
-    qr3 = 1- qr
 
     import imageio
     im = imageio.imread(picture)
+    im = im[:,:,:3]
+    im_black = numpy.clip(im,0,100)
+    im_white = numpy.clip(im,130,255)
     print(im.shape)
     
     from skimage.color import rgb2gray
@@ -25,12 +26,14 @@ def main(text,picture,output):
     # print(im.min(),im.max())
 
     from skimage.transform import resize
-    im = resize(im, tuple(qr.shape)+(3,), preserve_range=True)
-    print(im.shape)
+    im_black = resize(im_black, tuple(qr.shape)+(3,), preserve_range=True)
+    im_white = resize(im_white, tuple(qr.shape)+(3,), preserve_range=True)
+    print(im_black.shape)
 
-    imageio.imwrite("tmp.png", im)
+    imageio.imwrite("black.png", im_black)
+    imageio.imwrite("white.png", im_white)
 
-    result = ((1-qr) * im) + qr*255
+    result = ((1-qr) * im_black) + qr * im_white
     print(result.shape)
     imageio.imwrite(output, result)
 
