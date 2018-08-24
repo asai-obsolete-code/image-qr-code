@@ -37,5 +37,5 @@ def main(text,picture,output):
 import sys
 main(*sys.argv[1:])
 
-
-main("hellooooooooooooooooooooooooo","lenna.png","out.png")
+# test
+# main("hellooooooooooooooooooooooooo","lenna.png","out.png")
